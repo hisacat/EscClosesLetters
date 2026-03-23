@@ -41,15 +41,18 @@ namespace HisaCat.EscClosesLetters
 
         public static bool CloseOnCancel { get; private set; }
         public static bool CloseOnAccept { get; private set; }
+        public static bool CloseOnClickedOutside { get; private set; }
 
         public static void SetTarget(Dialog_NodeTree dialog, DiaOption dismissOption)
             => (TargetDialog, TargetDismissOption) = (dialog, dismissOption);
         public static void ClearTarget()
-            => (TargetDialog, TargetDismissOption, CloseOnCancel, CloseOnAccept) = (null, null, false, false);
+            => (TargetDialog, TargetDismissOption, CloseOnCancel, CloseOnAccept, CloseOnClickedOutside) = (null, null, false, false, false);
         public static void SetCloseOnCancel(bool value)
             => CloseOnCancel = value;
         public static void SetCloseOnAccept(bool value)
             => CloseOnAccept = value;
+        public static void SetCloseOnClickedOutside(bool value)
+            => CloseOnClickedOutside = value;
     }
 
     public static class LetterDismissPolicy

@@ -8,6 +8,7 @@
     <Settings.UseKeysToDismiss>창 닫기에 사용할 키</Settings.UseKeysToDismiss>
     <Settings.UseCancelKeyToDismiss>취소 키 ({0})로 닫기</Settings.UseCancelKeyToDismiss>
     <Settings.UseAcceptKeyToDismiss>확인 키 ({0})로 닫기</Settings.UseAcceptKeyToDismiss>
+    <Settings.CloseOnClickedOutside>창 밖을 클릭해서 닫기</Settings.CloseOnClickedOutside>
 
     <Settings.UseOptionsToDismiss>닫기로 사용할 선택지</Settings.UseOptionsToDismiss>
     <Settings.UseOkOptionForDismiss>"{0}" 를 닫기 선택지로 취급</Settings.UseOkOptionForDismiss>

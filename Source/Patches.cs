@@ -85,20 +85,30 @@ namespace HisaCat.EscClosesLetters
             // added or modified by other mods may already have one or both flags set to
             // true, in which case we simply leave them as they are and do nothing.
             var settings = LetterDismissModSettings.Instance;
-            if (__instance.closeOnCancel == false && settings.UseCancelKeyToDismiss)
-            {
-                LetterDismissContext.SetTarget(__instance, dismissOption);
+            bool enableCloseOnCancel = __instance.closeOnCancel == false && settings.UseCancelKeyToDismiss;
+            bool enableCloseOnAccept = __instance.closeOnAccept == false && settings.UseAcceptKeyToDismiss;
+            bool useClickedOutsideDismiss = __instance.closeOnClickedOutside == false && settings.CloseOnClickedOutside;
 
+            bool dismissOptionEnabled = enableCloseOnCancel || enableCloseOnAccept || useClickedOutsideDismiss;
+            if (dismissOptionEnabled == false) return;
+            LetterDismissContext.SetTarget(__instance, dismissOption);
+
+            if (enableCloseOnCancel)
+            {
                 __instance.closeOnCancel = true;
                 LetterDismissContext.SetCloseOnCancel(true);
-
             }
-            if (__instance.closeOnAccept == false && settings.UseAcceptKeyToDismiss)
+            if (enableCloseOnAccept)
             {
-                LetterDismissContext.SetTarget(__instance, dismissOption);
-
                 __instance.closeOnAccept = true;
                 LetterDismissContext.SetCloseOnAccept(true);
+            }
+            if (useClickedOutsideDismiss)
+            {
+                // Do not force closeOnClickedOutside = true.
+                // WindowStack.CloseWindowsBecauseClicked may close this window before
+                // Notify_ClickOutsideWindow runs, which would skip our dismiss-option activation.
+                LetterDismissContext.SetCloseOnClickedOutside(true);
             }
         }
 #pragma warning restore IDE0051
@@ -127,7 +137,7 @@ namespace HisaCat.EscClosesLetters
 #pragma warning restore IDE0051
     }
 
-    internal static class Patch_Window
+    internal static class Patch_Window_And_WindowStack
     {
         [HarmonyPatch(typeof(Window), nameof(Window.PreClose))]
         internal static class Patch_PreClose
@@ -145,7 +155,7 @@ namespace HisaCat.EscClosesLetters
         }
 
         [HarmonyPatch(typeof(Window), nameof(Window.OnCancelKeyPressed))]
-        internal static class Patch_Notify_PressedCancel
+        internal static class Patch_OnCancelKeyPressed
         {
             static bool Prefix(Window __instance)
             {
@@ -154,7 +164,7 @@ namespace HisaCat.EscClosesLetters
 
                 if (LetterDismissModSettings.Instance.UseCancelKeyToDismiss == false) return true;
 
-                if (TryActivateDismissOption(nameof(Window.OnAcceptKeyPressed)) == false) return true;
+                if (TryActivateDismissOption(nameof(Window.OnCancelKeyPressed)) == false) return true;
 
                 Event.current.Use(); // Consume the current event.
                 return false; // Skip original method.
@@ -162,7 +172,7 @@ namespace HisaCat.EscClosesLetters
         }
 
         [HarmonyPatch(typeof(Window), nameof(Window.OnAcceptKeyPressed))]
-        internal static class Patch_Notify_PressedAccept
+        internal static class Patch_OnAcceptKeyPressed
         {
             static bool Prefix(Window __instance)
             {
@@ -176,6 +186,45 @@ namespace HisaCat.EscClosesLetters
                 Event.current.Use(); // Consume the current event.
                 return false; // Skip original method.
             }
+        }
+
+        private static Window deferredDismissWindowFromClickOutside = null;
+        [HarmonyPatch(typeof(Window), nameof(Window.Notify_ClickOutsideWindow))]
+        internal static class Patch_Notify_ClickOutsideWindow
+        {
+            static bool Prefix(Window __instance)
+            {
+                if (LetterDismissContext.TargetDialog != __instance) return true;
+                if (LetterDismissContext.CloseOnClickedOutside == false) return true;
+
+                if (LetterDismissModSettings.Instance.CloseOnClickedOutside == false) return true;
+
+                deferredDismissWindowFromClickOutside = __instance;
+                Logger.Message(nameof(Window.Notify_ClickOutsideWindow), $"Dismiss window deferred: '{__instance.GetType().Name}'");
+
+                // Notify_ClickOutsideWindow is called inside WindowStack.NotifyOutsideClicks foreach.
+                // Activating dismiss here can modify the windows collection during enumeration
+                // and cause "Collection was modified" exceptions.
+                // So we defer activation and run it in a Postfix of WindowStack.NotifyOutsideClicks.
+
+                return false; // Skip original method.
+            }
+        }
+
+        [HarmonyPatch(typeof(WindowStack), nameof(WindowStack_Members.NotifyOutsideClicks))]
+        internal static class Patch_WindowStack_NotifyOutsideClicks
+        {
+#pragma warning disable IDE0051
+            static void Postfix()
+            {
+                if (deferredDismissWindowFromClickOutside != null)
+                {
+                    Logger.Message(nameof(WindowStack_Members.NotifyOutsideClicks), $"Activate deferred dismiss window: '{deferredDismissWindowFromClickOutside.GetType().Name}'");
+                    TryActivateDismissOption(nameof(WindowStack_Members.NotifyOutsideClicks));
+                    deferredDismissWindowFromClickOutside = null;
+                }
+            }
+#pragma warning restore IDE0051
         }
 
         internal static bool TryActivateDismissOption(string methodName)

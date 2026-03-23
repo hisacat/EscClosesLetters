@@ -8,6 +8,7 @@
     <Settings.UseKeysToDismiss>Keys used to dismiss the dialog</Settings.UseKeysToDismiss>
     <Settings.UseCancelKeyToDismiss>Use Cancel ({0}) key</Settings.UseCancelKeyToDismiss>
     <Settings.UseAcceptKeyToDismiss>Use Accept ({0}) key</Settings.UseAcceptKeyToDismiss>
+    <Settings.CloseOnClickedOutside>Close on clicked outside</Settings.CloseOnClickedOutside>
 
     <Settings.UseOptionsToDismiss>Options treated as dismiss actions</Settings.UseOptionsToDismiss>
     <Settings.UseOkOptionForDismiss>Use "{0}" option</Settings.UseOkOptionForDismiss>

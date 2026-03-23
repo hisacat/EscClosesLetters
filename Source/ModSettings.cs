@@ -9,6 +9,8 @@ namespace HisaCat.EscClosesLetters
         public bool UseCancelKeyToDismiss => useCancelKeyToDismiss.value;
         public ConfigValue<bool> useAcceptKeyToDismiss = new(true);
         public bool UseAcceptKeyToDismiss => useAcceptKeyToDismiss.value;
+        public ConfigValue<bool> closeOnClickedOutside = new(true);
+        public bool CloseOnClickedOutside => closeOnClickedOutside.value;
 
         public ConfigValue<bool> useOkOptionForDismiss = new(true);
         public bool UseOkOptionForDismiss => useOkOptionForDismiss.value;
@@ -38,6 +40,7 @@ namespace HisaCat.EscClosesLetters
         {
             Scribe_Values.Look(ref this.useCancelKeyToDismiss.value, nameof(this.useCancelKeyToDismiss), this.useCancelKeyToDismiss.defaultValue);
             Scribe_Values.Look(ref this.useAcceptKeyToDismiss.value, nameof(this.useAcceptKeyToDismiss), this.useAcceptKeyToDismiss.defaultValue);
+            Scribe_Values.Look(ref this.closeOnClickedOutside.value, nameof(this.closeOnClickedOutside), this.closeOnClickedOutside.defaultValue);
 
             Scribe_Values.Look(ref this.useOkOptionForDismiss.value, nameof(this.useOkOptionForDismiss), this.useOkOptionForDismiss.defaultValue);
             Scribe_Values.Look(ref this.useCloseOptionForDismiss.value, nameof(this.useCloseOptionForDismiss), this.useCloseOptionForDismiss.defaultValue);
@@ -52,6 +55,7 @@ namespace HisaCat.EscClosesLetters
         {
             this.useCancelKeyToDismiss.ResetToDefault();
             this.useAcceptKeyToDismiss.ResetToDefault();
+            this.closeOnClickedOutside.ResetToDefault();
 
             this.useOkOptionForDismiss.ResetToDefault();
             this.useCloseOptionForDismiss.ResetToDefault();
@@ -84,6 +88,7 @@ namespace HisaCat.EscClosesLetters
                 listingStandard.Label(KeyedKeys.LetterDismiss.Settings.UseKeysToDismiss.Translate());
                 listingStandard.CheckboxLabeled(KeyedKeys.LetterDismiss.Settings.UseCancelKeyToDismiss.Translate(RimWorld.KeyBindingDefOf.Cancel.MainKeyLabel), ref this.settings.useCancelKeyToDismiss.value);
                 listingStandard.CheckboxLabeled(KeyedKeys.LetterDismiss.Settings.UseAcceptKeyToDismiss.Translate(RimWorld.KeyBindingDefOf.Accept.MainKeyLabel), ref this.settings.useAcceptKeyToDismiss.value);
+                listingStandard.CheckboxLabeled(KeyedKeys.LetterDismiss.Settings.CloseOnClickedOutside.Translate(), ref this.settings.closeOnClickedOutside.value);
                 listingStandard.Gap();
 
                 listingStandard.Label(KeyedKeys.LetterDismiss.Settings.UseOptionsToDismiss.Translate());

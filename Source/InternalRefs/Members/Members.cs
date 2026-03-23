@@ -14,4 +14,9 @@ namespace HisaCat.EscClosesLetters.InternalRefs.Members
     {
         public const string curNode = nameof(curNode);
     }
+
+    internal static class WindowStack_Members
+    {
+        public const string NotifyOutsideClicks = nameof(NotifyOutsideClicks);
+    }
 }
