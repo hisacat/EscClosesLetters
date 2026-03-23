@@ -85,18 +85,20 @@ namespace HisaCat.EscClosesLetters
             // added or modified by other mods may already have one or both flags set to
             // true, in which case we simply leave them as they are and do nothing.
             var settings = LetterDismissModSettings.Instance;
-            if (__instance.closeOnCancel == false && settings.UseCancelKeyToDismiss)
-            {
-                LetterDismissContext.SetTarget(__instance, dismissOption);
+            bool enableCloseOnCancel = __instance.closeOnCancel == false && settings.UseCancelKeyToDismiss;
+            bool enableCloseOnAccept = __instance.closeOnAccept == false && settings.UseAcceptKeyToDismiss;
 
+            bool dismissOptionEnabled = enableCloseOnCancel || enableCloseOnAccept;
+            if (dismissOptionEnabled == false) return;
+            LetterDismissContext.SetTarget(__instance, dismissOption);
+
+            if (enableCloseOnCancel)
+            {
                 __instance.closeOnCancel = true;
                 LetterDismissContext.SetCloseOnCancel(true);
-
             }
-            if (__instance.closeOnAccept == false && settings.UseAcceptKeyToDismiss)
+            if (enableCloseOnAccept)
             {
-                LetterDismissContext.SetTarget(__instance, dismissOption);
-
                 __instance.closeOnAccept = true;
                 LetterDismissContext.SetCloseOnAccept(true);
             }
