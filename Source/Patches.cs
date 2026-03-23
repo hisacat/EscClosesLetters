@@ -9,17 +9,19 @@ using HisaCat.Utilities;
 
 namespace HisaCat.EscClosesLetters
 {
-    // NOTE: This patch is unnecessary because changing the language restarts the game and reloads all mods.
-    // [HarmonyPriority(Priority.Last)]
-    // [HarmonyPatch(typeof(LanguageDatabase), nameof(LanguageDatabase.SelectLanguage))]
-    // internal static class Patch_LanguageDatabase_SelectLanguage
-    // {
-    //     static void Prefix()
-    //     {
-    //         LetterDismissConfig.UpdateDismissOptionTexts();
-    //         Logger.Message(nameof(LanguageDatabase.SelectLanguage), $"Dismiss option texts updated.");
-    //     }
-    // }
+    [HarmonyPriority(Priority.Last)]
+    [HarmonyPatch(typeof(LanguageDatabase), nameof(LanguageDatabase.InitAllMetadata))]
+    internal static class Patch_LanguageDatabase_InitAllMetadata
+    {
+        // Language change reloads play data asynchronously:
+        // SelectLanguage -> PlayDataLoader.LoadAllPlayData -> LanguageDatabase.InitAllMetadata.
+        // Update dismiss option texts here so they reflect the newly loaded language metadata.
+        static void Postfix()
+        {
+            LetterDismissConfig.UpdateDismissOptionTexts();
+            Logger.Message(nameof(LanguageDatabase.InitAllMetadata), $"Dismiss option texts updated.");
+        }
+    }
 
     [HarmonyPatch]
     internal static class Patch_ChoiceLetter_AllDerived_OpenLetter

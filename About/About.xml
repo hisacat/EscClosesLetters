@@ -3,7 +3,7 @@
     <name>Esc Closes Letters</name>
     <author>HisaCat</author>
     <packageId>cat.hisa.escclosesletters</packageId>
-    <modVersion>1.0.0</modVersion>
+    <modVersion>1.0.1</modVersion>
     <url>https://github.com/hisacat/EscClosesLetters</url>
     <supportedVersions>
         <li>1.4</li>
