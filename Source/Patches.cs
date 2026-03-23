@@ -145,7 +145,7 @@ namespace HisaCat.EscClosesLetters
         }
 
         [HarmonyPatch(typeof(Window), nameof(Window.OnCancelKeyPressed))]
-        internal static class Patch_Notify_PressedCancel
+        internal static class Patch_OnCancelKeyPressed
         {
             static bool Prefix(Window __instance)
             {
@@ -154,7 +154,7 @@ namespace HisaCat.EscClosesLetters
 
                 if (LetterDismissModSettings.Instance.UseCancelKeyToDismiss == false) return true;
 
-                if (TryActivateDismissOption(nameof(Window.OnAcceptKeyPressed)) == false) return true;
+                if (TryActivateDismissOption(nameof(Window.OnCancelKeyPressed)) == false) return true;
 
                 Event.current.Use(); // Consume the current event.
                 return false; // Skip original method.
@@ -162,7 +162,7 @@ namespace HisaCat.EscClosesLetters
         }
 
         [HarmonyPatch(typeof(Window), nameof(Window.OnAcceptKeyPressed))]
-        internal static class Patch_Notify_PressedAccept
+        internal static class Patch_OnAcceptKeyPressed
         {
             static bool Prefix(Window __instance)
             {
