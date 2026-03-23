@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+    <!-- General -->
+    <EscClosesLetters>Esc Closes Letters</EscClosesLetters>
+
+    <!-- Settings -->
+    <Settings.UseKeysToDismiss>Keys used to dismiss the dialog</Settings.UseKeysToDismiss>
+    <Settings.UseCancelKeyToDismiss>Use Cancel ({0}) key</Settings.UseCancelKeyToDismiss>
+    <Settings.UseAcceptKeyToDismiss>Use Accept ({0}) key</Settings.UseAcceptKeyToDismiss>
+
+    <Settings.UseOptionsToDismiss>Options treated as dismiss actions</Settings.UseOptionsToDismiss>
+    <Settings.UseOkOptionForDismiss>Use "{0}" option</Settings.UseOkOptionForDismiss>
+    <Settings.UseCloseOptionForDismiss>Use "{0}" option</Settings.UseCloseOptionForDismiss>
+    <Settings.UsePostponeLetterOptionForDismiss>Use "{0}" option</Settings.UsePostponeLetterOptionForDismiss>
+    <Settings.UseRejectOptionForDismiss>Use "{0}" option</Settings.UseRejectOptionForDismiss>
+
+    <Settings.Debug>Debug</Settings.Debug>
+    <Settings.EnableLog>Enable log</Settings.EnableLog>
+
+    <Settings.ResetToDefaults>Reset to defaults</Settings.ResetToDefaults>
+
+</LanguageData>

@@ -1,0 +1,113 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceFolder}/Source/${workspaceFolderBasename}.sln",
+                "-c",
+                "${input:configuration}",
+                "/property:RimWorldVersionOverride=${input:targetRimWorldVersion}",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            // "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "owner": "csharp",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^\\s*([A-Za-z]:\\\\.*|\\\\\\\\.*)\\((\\d+),(\\d+)\\):\\s+(error|warning)\\s+([A-Z]+\\d+):\\s+(.*)$",
+                    "file": 1, "line": 2, "column": 3, "severity": 4, "code": 5, "message": 6
+                }
+            }
+        },
+        {
+            "label": "build all versions and publish",
+            "type": "shell",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}/BuildAllAndPublish.ps1\"",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            // "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "owner": "csharp",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^\\s*([A-Za-z]:\\\\.*|\\\\\\\\.*)\\((\\d+),(\\d+)\\):\\s+(error|warning)\\s+([A-Z]+\\d+):\\s+(.*)$",
+                    "file": 1, "line": 2, "column": 3, "severity": 4, "code": 5, "message": 6
+                }
+            }
+        }, {
+            "label": "clean",
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "clean",
+                "${workspaceFolder}/Source/${workspaceFolderBasename}.sln",
+                "-c",
+                "${input:configuration}",
+                "/property:RimWorldVersionOverride=${input:targetRimWorldVersion}",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+            ],
+            "problemMatcher": [ ]
+        },
+        {
+            "label": "clean all versions (Debug+Release)",
+            "type": "shell",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}/CleanAll.ps1\"",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "publish",
+            "type": "process",
+            "command": "filterexport",
+            "args": [
+                "-c",
+                "./PublishFileFilter.xml",
+                "-o",
+                "../${workspaceFolderBasename}_Publish",
+                "-y"
+            ]
+        }
+    ],
+    "inputs": [
+        {
+            "id": "targetRimWorldVersion",
+            "type": "pickString",
+            "description": "Target RimWorld version",
+            "options": [
+                {
+                    "label": "Directory.Build.props (default)",
+                    "value": "default"
+                },
+                { "label": "1.4", "value": "1.4" },
+                { "label": "1.5", "value": "1.5" },
+                { "label": "1.6", "value": "1.6" }
+            ],
+            "default": "default"
+        },
+        {
+            "id": "configuration",
+            "type": "pickString",
+            "description": "Configuration",
+            "options": [
+                { "label": "Debug (default)", "value": "Debug" },
+                { "label": "Release", "value": "Release" }
+            ],
+            "default": "Debug"
+        }
+    ]
+}

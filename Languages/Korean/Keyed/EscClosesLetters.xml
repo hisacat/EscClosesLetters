@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+    <!-- General -->
+    <EscClosesLetters>Esc Closes Letters</EscClosesLetters>
+
+    <!-- Settings -->
+    <Settings.UseKeysToDismiss>창 닫기에 사용할 키</Settings.UseKeysToDismiss>
+    <Settings.UseCancelKeyToDismiss>취소 키 ({0})로 닫기</Settings.UseCancelKeyToDismiss>
+    <Settings.UseAcceptKeyToDismiss>확인 키 ({0})로 닫기</Settings.UseAcceptKeyToDismiss>
+
+    <Settings.UseOptionsToDismiss>닫기로 사용할 선택지</Settings.UseOptionsToDismiss>
+    <Settings.UseOkOptionForDismiss>"{0}" 를 닫기 선택지로 취급</Settings.UseOkOptionForDismiss>
+    <Settings.UseCloseOptionForDismiss>"{0}" 를 닫기 선택지로 취급</Settings.UseCloseOptionForDismiss>
+    <Settings.UsePostponeLetterOptionForDismiss>"{0}" 를 닫기 선택지로 취급</Settings.UsePostponeLetterOptionForDismiss>
+    <Settings.UseRejectOptionForDismiss>"{0}" 를 닫기 선택지로 취급</Settings.UseRejectOptionForDismiss>
+
+    <Settings.Debug>디버그</Settings.Debug>
+    <Settings.EnableLog>로그 활성화</Settings.EnableLog>
+
+    <Settings.ResetToDefaults>기본값으로 초기화</Settings.ResetToDefaults>
+
+</LanguageData>

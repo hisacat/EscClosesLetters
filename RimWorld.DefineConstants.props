@@ -1,0 +1,14 @@
+<Project>
+	<PropertyGroup>
+		<TargetRimWorldVersion_Underscored>$([System.String]::Copy('$(TargetRimWorldVersion)').Replace('.', '_'))</TargetRimWorldVersion_Underscored>
+
+		<DefineConstants>$(DefineConstants);RIMWORLD_$(TargetRimWorldVersion_Underscored)</DefineConstants>
+		<DefineConstants Condition="'$(TargetRimWorldVersion)' != '' and $([System.Version]::Parse('$(TargetRimWorldVersion)').CompareTo($([System.Version]::Parse('1.0')))) >= 0">$(DefineConstants);RIMWORLD_1_0_OR_NEWER</DefineConstants>
+		<DefineConstants Condition="'$(TargetRimWorldVersion)' != '' and $([System.Version]::Parse('$(TargetRimWorldVersion)').CompareTo($([System.Version]::Parse('1.1')))) >= 0">$(DefineConstants);RIMWORLD_1_1_OR_NEWER</DefineConstants>
+		<DefineConstants Condition="'$(TargetRimWorldVersion)' != '' and $([System.Version]::Parse('$(TargetRimWorldVersion)').CompareTo($([System.Version]::Parse('1.2')))) >= 0">$(DefineConstants);RIMWORLD_1_2_OR_NEWER</DefineConstants>
+		<DefineConstants Condition="'$(TargetRimWorldVersion)' != '' and $([System.Version]::Parse('$(TargetRimWorldVersion)').CompareTo($([System.Version]::Parse('1.3')))) >= 0">$(DefineConstants);RIMWORLD_1_3_OR_NEWER</DefineConstants>
+		<DefineConstants Condition="'$(TargetRimWorldVersion)' != '' and $([System.Version]::Parse('$(TargetRimWorldVersion)').CompareTo($([System.Version]::Parse('1.4')))) >= 0">$(DefineConstants);RIMWORLD_1_4_OR_NEWER</DefineConstants>
+		<DefineConstants Condition="'$(TargetRimWorldVersion)' != '' and $([System.Version]::Parse('$(TargetRimWorldVersion)').CompareTo($([System.Version]::Parse('1.5')))) >= 0">$(DefineConstants);RIMWORLD_1_5_OR_NEWER</DefineConstants>
+		<DefineConstants Condition="'$(TargetRimWorldVersion)' != '' and $([System.Version]::Parse('$(TargetRimWorldVersion)').CompareTo($([System.Version]::Parse('1.6')))) >= 0">$(DefineConstants);RIMWORLD_1_6_OR_NEWER</DefineConstants>
+	</PropertyGroup>
+</Project>

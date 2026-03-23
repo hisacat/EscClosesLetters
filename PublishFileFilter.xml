@@ -1,0 +1,16 @@
+<FileFilter>
+    <Includes>
+        <Pattern>**</Pattern>
+    </Includes>
+
+    <Excludes>
+        <Pattern>.Designs/</Pattern>
+        <Pattern>.git/</Pattern>
+        <Pattern>Source/</Pattern>
+        <Pattern>.vscode/</Pattern>
+        <Pattern>.gitignore</Pattern>
+        <Pattern>*.props</Pattern>
+        <Pattern>*.ps1</Pattern>
+        <Pattern>PublishFileFilter.xml</Pattern>
+    </Excludes>
+</FileFilter>

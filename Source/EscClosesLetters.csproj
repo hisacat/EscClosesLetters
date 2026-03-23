@@ -1,0 +1,84 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<!-- Optionally override TargetRimWorldVersion via dotnet CLI
+		 (e.g. dotnet build -p:RimWorldVersionOverride=1.5). -->
+	<PropertyGroup Condition="'$(RimWorldVersionOverride)' != '' and '$(RimWorldVersionOverride)' != 'default'">
+		<TargetRimWorldVersion>$(RimWorldVersionOverride)</TargetRimWorldVersion>
+	</PropertyGroup>
+
+	<!-- RimWorld.Paths.props defines HarmonyDllPath and RimWorldAssembliesDir for references below.
+		 To build: create your own props file with those two properties, and point this Import to it. -->
+	<Import Project="..\..\RimWorld.Paths.props"/>
+
+	<!-- Load shared define constants for RimWorld versions -->
+	<Import Project="..\RimWorld.DefineConstants.props"/>
+
+	<!-- External file links -->
+	<ItemGroup>
+		<None Include="..\About\About.xml" Link="About.xml" />
+		<None Include="..\Directory.Build.props" Link="Directory.Build.props" />
+		<None Include="..\..\RimWorld.Paths.props" Link="RimWorld.Paths.props" />
+	</ItemGroup>
+
+	<!-- C# Project settings -->
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<PlatformTarget>x64</PlatformTarget>
+		<AssemblyName>$(ModAuthors).$(ModProjectName)</AssemblyName>
+		<RootNamespace>$(ModAuthors).$(ModProjectName)</RootNamespace>
+
+		<Product>$(ModName)</Product>
+		<Version>$(ModVersion)</Version>
+		<Authors>$(ModAuthors)</Authors>
+		<Company>$(ModCompany)</Company>
+		<Copyright>Copyright $(ModAuthors)</Copyright>
+		<PackageProjectUrl Condition="'$(ModRepository)' != ''">$(ModRepository)</PackageProjectUrl>
+		<RepositoryUrl Condition="'$(ModRepository)' != ''">$(ModRepository)</RepositoryUrl>
+		<PackageLicenseExpression Condition="'$(ModSpdxLicense)' != ''">$(ModSpdxLicense)</PackageLicenseExpression>
+	</PropertyGroup>
+
+	<!-- Output path -->
+	<PropertyGroup>
+		<OutputPath>..\$(TargetRimWorldVersion)\Assemblies\</OutputPath>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>
+
+	<!-- Release build settings -->
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<Optimize>true</Optimize>
+		<!-- Include PDB files in release builds to improve StackTrace readability -->
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>portable</DebugType>
+	</PropertyGroup>
+
+	<!-- Debug build settings -->
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<Optimize>false</Optimize>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>portable</DebugType>
+	</PropertyGroup>
+
+	<!-- References -->
+	<ItemGroup>
+		<Reference Include="0Harmony">
+			<HintPath>$(HarmonyDllPath)</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>$(RimWorldAssembliesDir)\Assembly-CSharp.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>$(RimWorldAssembliesDir)\UnityEngine.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>$(RimWorldAssembliesDir)\UnityEngine.CoreModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.IMGUIModule">
+			<HintPath>$(RimWorldAssembliesDir)\UnityEngine.IMGUIModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+</Project>
