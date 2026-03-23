@@ -5,7 +5,7 @@
 
 		<ModName>Esc Closes Letters</ModName>
 		<ModProjectName>EscClosesLetters</ModProjectName>
-		<ModVersion>1.0.1</ModVersion>
+		<ModVersion>1.1.1</ModVersion>
 		<ModAuthors>HisaCat</ModAuthors>
 		<ModCompany>$(ModAuthors)</ModCompany>
 	</PropertyGroup>

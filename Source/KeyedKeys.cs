@@ -18,6 +18,7 @@
                 public const string UseKeysToDismiss = "Settings.UseKeysToDismiss";
                 public const string UseCancelKeyToDismiss = "Settings.UseCancelKeyToDismiss";
                 public const string UseAcceptKeyToDismiss = "Settings.UseAcceptKeyToDismiss";
+                public const string CloseOnClickedOutside = "Settings.CloseOnClickedOutside";
 
                 public const string UseOptionsToDismiss = "Settings.UseOptionsToDismiss";
                 public const string UseOkOptionForDismiss = "Settings.UseOkOptionForDismiss";
