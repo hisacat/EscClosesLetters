@@ -24,7 +24,7 @@ namespace HisaCat.EscClosesLetters.InternalRefs.Accessors
     internal static class Dialog_NodeTree_Extensions
     {
         private static readonly AccessTools.FieldRef<Dialog_NodeTree, DiaNode> curNodeRef =
-            AccessTools.FieldRefAccess<Dialog_NodeTree, DiaNode>("curNode");
+            AccessTools.FieldRefAccess<Dialog_NodeTree, DiaNode>(Dialog_NodeTree_Members.curNode);
         public static DiaNode GetCurNode(this Dialog_NodeTree tree) => curNodeRef(tree);
     }
 }
