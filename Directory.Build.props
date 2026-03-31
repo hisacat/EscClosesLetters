@@ -1,5 +1,5 @@
 <Project>
-	<!-- Nessecary properties -->
+	<!-- Necessary properties -->
 	<PropertyGroup>
 		<TargetRimWorldVersion>1.6</TargetRimWorldVersion>
 
