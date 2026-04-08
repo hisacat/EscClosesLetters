@@ -29,20 +29,20 @@ namespace HisaCat.EscClosesLetters
         static IEnumerable<MethodBase> TargetMethods()
             => HarmonyUtilities.GetOverriddenMethods(typeof(ChoiceLetter), nameof(ChoiceLetter.OpenLetter), includeRootType: true);
 
-        struct OpenLetterContext { public bool isLeafType; }
+        struct OpenLetterContext { public bool isLeafOverriddenMethodForThisCall; }
 
         [HarmonyPriority(Priority.Last)]
         static void Prefix(ChoiceLetter __instance, MethodBase __originalMethod, ref OpenLetterContext __state)
         {
-            // To handle cases where a class inherits from Letter through two or more levels
-            // and its OpenLetter implementation calls base.OpenLetter,
-            // we ensure that the patch logic only runs for the actual leaf type of the instance.
-            // Without this check, a single OpenLetter call on one object could trigger
-            // multiple patch methods and cause unintended behavior.
+            // If multiple OpenLetter overrides exist in the inheritance chain and a leaf override
+            // calls base.OpenLetter(), Harmony patches on each override can all run for one logical call.
+            // Restrict the opening-flag ownership to the leaf overridden method only,
+            // so the flag is set/cleared exactly once for that call.
             // * The vanilla game code does not contain such cases.
             // However, other mods may use this pattern, so this serves as a minimal
             // safeguard against that possibility.
-            __state = new() { isLeafType = __instance.GetType() == __originalMethod.DeclaringType };
+            __state = new() { isLeafOverriddenMethodForThisCall = __instance.GetType() == __originalMethod.DeclaringType };
+            if (__state.isLeafOverriddenMethodForThisCall == false) return;
 
             LetterDismissContext.IsOpeningLetter = true;
             Logger.Message($"{nameof(ChoiceLetter.OpenLetter)}.{nameof(Prefix)}",
@@ -51,7 +51,7 @@ namespace HisaCat.EscClosesLetters
 
         static void Finalizer(ChoiceLetter __instance, ref OpenLetterContext __state)
         {
-            if (__state.isLeafType == false) return;
+            if (__state.isLeafOverriddenMethodForThisCall == false) return;
 
             LetterDismissContext.IsOpeningLetter = false;
             Logger.Message($"{nameof(ChoiceLetter.OpenLetter)}.{nameof(Finalizer)}",
